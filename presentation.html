@@ -826,6 +826,98 @@
                 bottom: 10px;
             }
         }
+
+        /* Title Slide Mobile Fixes */
+        @media (max-width: 768px) {
+            .slide[data-slide="1"] h1 {
+                font-size: 28px !important;
+                margin-bottom: 15px !important;
+            }
+
+            .slide[data-slide="1"] .subtitle {
+                font-size: 16px !important;
+                margin-bottom: 30px !important;
+            }
+
+            .slide[data-slide="1"] .client-logo {
+                margin-bottom: 20px !important;
+            }
+
+            .slide[data-slide="1"] .tag {
+                font-size: 10px !important;
+                padding: 5px 10px !important;
+                margin: 3px !important;
+            }
+
+            .slide[data-slide="1"] div[style*="margin-top: 80px"] {
+                margin-top: 30px !important;
+                font-size: 12px !important;
+            }
+
+            .slide[data-slide="1"] div[style*="gap: 20px"] {
+                gap: 8px !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide[data-slide="1"] h1 {
+                font-size: 22px !important;
+            }
+
+            .slide[data-slide="1"] .subtitle {
+                font-size: 14px !important;
+            }
+        }
+
+        /* Slide 16 (Thank You) Mobile Fixes */
+        @media (max-width: 768px) {
+            .slide[data-slide="16"] h1 {
+                font-size: 36px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .slide[data-slide="16"] .subtitle {
+                font-size: 18px !important;
+                margin-bottom: 30px !important;
+            }
+
+            .slide[data-slide="16"] .highlight-box {
+                max-width: 100% !important;
+                padding: 15px !important;
+            }
+
+            .slide[data-slide="16"] .highlight-box p {
+                font-size: 16px !important;
+            }
+
+            .slide[data-slide="16"] div[style*="margin-top: 60px"] {
+                margin-top: 30px !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+            }
+
+            .slide[data-slide="16"] .tag {
+                font-size: 10px !important;
+                padding: 5px 10px !important;
+                margin: 3px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide[data-slide="16"] h1 {
+                font-size: 28px !important;
+            }
+
+            .slide[data-slide="16"] .subtitle {
+                font-size: 16px !important;
+            }
+
+            .slide[data-slide="16"] .highlight-box p {
+                font-size: 14px !important;
+            }
+        }
     </style>
 </head>
 
@@ -1359,8 +1451,8 @@
                                 </tr>
                                 <tr>
                                     <td>AppsFlyer</td>
-                                    <td>$1,500-3,000</td>
-                                    <td><span class="tag orange">Need Contract</span></td>
+                                    <td><strong>TBD</strong></td>
+                                    <td><span class="tag orange">Volume-based</span></td>
                                 </tr>
                                 <tr>
                                     <td>Google Tag Manager</td>
@@ -1369,8 +1461,8 @@
                                 </tr>
                                 <tr style="background: #4338CA; color: white;">
                                     <td><strong>Total</strong></td>
-                                    <td><strong>$1,500-3,500</strong></td>
-                                    <td></td>
+                                    <td><strong>TBD</strong></td>
+                                    <td><em style="font-size: 12px;">Depends on volume</em></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1380,17 +1472,18 @@
                         <div class="card" style="margin-bottom: 15px; background: #fff3cd; border-top-color: #f6ad55;">
                             <h4 style="color: #856404;">🔍 Need to Hire/Contract</h4>
                             <ul style="font-size: 14px;">
-                                <li style="font-size: 14px;">Analytics Engineer: 0.5 FTE (6 months)</li>
-                                <li style="font-size: 14px;">iOS Developer: 0.3 FTE (Bridge implementation)</li>
-                                <li style="font-size: 14px;">Android Developer: 0.3 FTE (Bridge implementation)</li>
-                                <li style="font-size: 14px;">Web Developer: 0.2 FTE (GTM setup)</li>
+                                <li style="font-size: 14px;">Analytics Engineer: ~80-100 hours (implementation)</li>
+                                <li style="font-size: 14px;">iOS Developer: ~50-60 hours (bridge + SKAdNetwork)</li>
+                                <li style="font-size: 14px;">Android Developer: ~50-60 hours (bridge implementation)
+                                </li>
+                                <li style="font-size: 14px;">Web Developer: ~30-40 hours (GTM + WebView)</li>
                             </ul>
                         </div>
                         <div class="card" style="background: #f0fff4; border-top-color: #10B981;">
                             <h4 style="color: #10B981;">✅ Ongoing (Post-Launch)</h4>
                             <ul style="font-size: 14px;">
-                                <li style="font-size: 14px;">Analytics Engineer: 0.25 FTE</li>
-                                <li style="font-size: 14px;">Marketing Analyst: 0.5 FTE</li>
+                                <li style="font-size: 14px;">Analytics Engineer: ~10-15 hours/month (maintenance)</li>
+                                <li style="font-size: 14px;">Marketing Analyst: ~20-25 hours/month (reporting)</li>
                             </ul>
                         </div>
                     </div>
