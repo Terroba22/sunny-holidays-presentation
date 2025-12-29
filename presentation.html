@@ -521,6 +521,311 @@
                 left: 0 !important;
             }
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .slide {
+                padding: 20px 15px;
+            }
+
+            .precis-header {
+                top: 10px;
+                right: 15px;
+            }
+
+            .precis-header img {
+                height: 30px;
+            }
+
+            h1 {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+
+            h2 {
+                font-size: 22px;
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+            }
+
+            h3 {
+                font-size: 18px;
+                margin: 10px 0 8px 0;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            p,
+            li {
+                font-size: 14px;
+                line-height: 1.4;
+                margin-bottom: 6px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-top: 10px;
+            }
+
+            .column {
+                padding: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 10px 0;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-number {
+                font-size: 28px;
+                margin-bottom: 5px;
+            }
+
+            .stat-label {
+                font-size: 12px;
+            }
+
+            .diagram-container {
+                margin: 10px 0;
+            }
+
+            .diagram-container img {
+                max-height: 200px;
+            }
+
+            table {
+                font-size: 12px;
+                margin: 10px 0;
+            }
+
+            th,
+            td {
+                padding: 8px 6px;
+            }
+
+            .highlight-box {
+                padding: 15px;
+                margin: 10px 0;
+            }
+
+            .quote {
+                padding: 12px 15px;
+                margin: 10px 0;
+                font-size: 14px;
+            }
+
+            .timeline {
+                padding-left: 30px;
+                margin: 10px 0;
+            }
+
+            .timeline-item {
+                margin-bottom: 12px;
+            }
+
+            .timeline-title {
+                font-size: 16px;
+            }
+
+            .timeline-content {
+                font-size: 14px;
+            }
+
+            .navigation {
+                bottom: 15px;
+                right: 15px;
+                gap: 10px;
+            }
+
+            .nav-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .slide-counter {
+                bottom: 15px;
+                left: 15px;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .pdf-export-btn {
+                top: 10px;
+                left: 10px;
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin: 15px 0;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card h4 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .card p {
+                font-size: 14px;
+            }
+
+            .tag {
+                padding: 6px 12px;
+                font-size: 11px;
+                margin: 3px;
+            }
+
+            /* Touch-friendly navigation */
+            .nav-button {
+                min-width: 50px;
+                min-height: 44px;
+            }
+
+            /* Prevent zoom on double-tap */
+            * {
+                touch-action: manipulation;
+            }
+
+            /* Better text readability on mobile */
+            body {
+                -webkit-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+            }
+        }
+
+        /* Tablet Landscape (768px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .slide {
+                padding: 30px 40px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+
+            p,
+            li {
+                font-size: 16px;
+            }
+
+            .diagram-container img {
+                max-height: 250px;
+            }
+
+            .two-column {
+                gap: 20px;
+            }
+        }
+
+        /* Small Mobile (max 480px) */
+        @media (max-width: 480px) {
+            .slide {
+                padding: 15px 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 16px;
+            }
+
+            p,
+            li {
+                font-size: 13px;
+            }
+
+            .diagram-container img {
+                max-height: 150px;
+            }
+
+            .navigation {
+                bottom: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+
+            .slide-counter {
+                bottom: 10px;
+                left: 10px;
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            table {
+                font-size: 11px;
+            }
+
+            th,
+            td {
+                padding: 6px 4px;
+            }
+        }
+
+        /* Landscape orientation on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .slide {
+                padding: 10px 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+                margin-bottom: 8px;
+            }
+
+            h2 {
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+
+            .diagram-container img {
+                max-height: 120px;
+            }
+
+            .navigation {
+                bottom: 10px;
+            }
+
+            .slide-counter {
+                bottom: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -1276,6 +1581,38 @@
                 previousSlide();
             }
         });
+
+        // Touch gesture support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const horizontalDiff = touchEndX - touchStartX;
+            const verticalDiff = Math.abs(touchEndY - touchStartY);
+
+            // Only trigger if horizontal swipe is dominant
+            if (verticalDiff < 100) {
+                if (horizontalDiff > swipeThreshold) {
+                    previousSlide();
+                } else if (horizontalDiff < -swipeThreshold) {
+                    nextSlide();
+                }
+            }
+        }
 
         // Initialize
         document.getElementById('total-slides').textContent = totalSlides;
