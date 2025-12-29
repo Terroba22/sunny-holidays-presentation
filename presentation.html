@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunny Holidays - Analytics Strategy | Precis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4338CA 0%, #3730A3 100%);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 40px 60px;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* Precis Logo Header */
+        .precis-header {
+            position: absolute;
+            top: 30px;
+            right: 80px;
+            z-index: 50;
+        }
+
+        .precis-header img {
+            height: 50px;
+        }
+
+        .slide-header {
+            margin-bottom: 20px;
+        }
+
+        .slide-number {
+            color: #4338CA;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #1a202c;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: #2d3748;
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #4338CA;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #4a5568;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 15px 0 10px 0;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 180px);
+            padding-right: 10px;
+        }
+
+        /* Custom scrollbar styling */
+        .slide-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb {
+            background: #4338CA;
+            border-radius: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb:hover {
+            background: #3730A3;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 10px;
+        }
+
+        .column {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #4338CA;
+        }
+
+        ul {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        li {
+            color: #2d3748;
+            font-size: 17px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4338CA;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #4338CA 0%, #3730A3 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 10px 30px rgba(67, 56, 202, 0.3);
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .stat-card {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4338CA;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .diagram-container {
+            margin: 5px 0;
+            text-align: center;
+        }
+
+        .diagram-container img {
+            max-width: 100%;
+            max-height: 280px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 15px;
+        }
+
+        th {
+            background: #4338CA;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #2d3748;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .nav-button {
+            background: #4338CA;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(67, 56, 202, 0.3);
+        }
+
+        .nav-button:hover {
+            background: #3730A3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 56, 202, 0.4);
+        }
+
+        .nav-button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4338CA;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .quote {
+            background: #edf2f7;
+            border-left: 4px solid #4338CA;
+            padding: 15px 20px;
+            margin: 10px 0;
+            font-style: italic;
+            font-size: 16px;
+            color: #2d3748;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 15px 0;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #4338CA;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #4338CA;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #4338CA;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #4338CA;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            color: #4a5568;
+            font-size: 16px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #4338CA;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .tag.green {
+            background: #10B981;
+        }
+
+        .tag.orange {
+            background: #f6ad55;
+        }
+
+        .tag.blue {
+            background: #3B82F6;
+        }
+
+        @media print {
+
+            .navigation,
+            .slide-counter,
+            .precis-header {
+                display: none;
+            }
+
+            .slide {
+                page-break-after: always;
+                display: block !important;
+                opacity: 1 !important;
+                position: relative;
+            }
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 4px solid #4338CA;
+        }
+
+        .card h4 {
+            color: #4338CA;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #4a5568;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Client Logo */
+        .client-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .client-logo img {
+            height: 50px;
+        }
+
+        .client-logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        /* Green accent for Precis */
+        .precis-accent {
+            color: #10B981;
+        }
+
+        /* PDF Export Button */
+        .pdf-export-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            color: #4338CA;
+            border: 2px solid #4338CA;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pdf-export-btn:hover {
+            background: #4338CA;
+            color: white;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .diagram-container img {
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
+
+        .diagram-container img:hover {
+            transform: scale(1.02);
+        }
+
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .pdf-export-btn,
+            .lightbox,
+            .navigation,
+            .slide-counter,
+            .precis-header {
+                display: none !important;
+            }
+
+            .slide {
+                page-break-after: always;
+                break-after: page;
+                display: flex !important;
+                opacity: 1 !important;
+                position: relative !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                top: 0 !important;
+                left: 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Precis Logo on all slides -->
+    <div class="precis-header">
+        <img src="precis_logo.png" alt="Precis">
+    </div>
+
+
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="" alt="Full size view">
+    </div>
+
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-slide="1">
+            <!-- PDF Export Button (Only visible on Slide 1) -->
+            <button onclick="window.print()" class="pdf-export-btn">
+                📄 Export to PDF
+            </button>
+            <div
+                style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center;">
+                <div class="client-logo" style="margin-bottom: 40px;">
+                    <img src="sunny_holidays_logo.png" alt="Sunny Holidays">
+                </div>
+                <h1 style="font-size: 56px; margin-bottom: 20px; color: #4338CA;">Analytics & Tracking</h1>
+                <h1 style="font-size: 56px; margin-bottom: 40px; color: #4338CA;">Implementation Strategy</h1>
+                <div class="subtitle" style="font-size: 28px; margin-bottom: 60px;">Unified Web & App Measurement in a
+                    Privacy-First World</div>
+                <div style="display: flex; gap: 20px; margin-top: 40px;">
+                    <span class="tag blue">Google Analytics 4</span>
+                    <span class="tag green">Firebase</span>
+                    <span class="tag orange">AppsFlyer</span>
+                </div>
+                <div style="margin-top: 80px; color: #718096; font-size: 18px;">
+                    Case Interview - Pablo Terroba Nicolás | December 2025
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Challenge -->
+        <div class="slide" data-slide="2">
+            <div class="slide-header">
+                <div class="slide-number">01</div>
+                <h2>The Challenge</h2>
+            </div>
+            <div class="slide-content">
+                <div class="client-logo">
+                    <img src="sunny_holidays_logo.png" alt="Sunny Holidays">
+                </div>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Sunny Holidays' Situation</h3>
+                        <ul>
+                            <li>New hybrid mobile app launched (iOS & Android)</li>
+                            <li>Multiple analytics tools implemented</li>
+                            <li>Need unified view of web + app</li>
+                            <li>Must optimize paid campaigns</li>
+                            <li>iOS privacy compliance required</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Current Tech Stack</h3>
+                        <ul>
+                            <li>Google Analytics 4</li>
+                            <li>Google Tag Manager (Web)</li>
+                            <li>Firebase SDK (App)</li>
+                            <li>AppsFlyer SDK (App)</li>
+                            <li>Hybrid architecture (Native + WebView)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <h3>Our Mission</h3>
+                    <p style="font-size: 20px; line-height: 1.6;">Build a <strong>unified, privacy-first measurement
+                            framework</strong> that empowers marketing to optimize ROI across Google & Meta despite iOS
+                        tracking challenges.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Approach -->
+        <div class="slide" data-slide="3">
+            <div class="slide-header">
+                <div class="slide-number">02</div>
+                <h2>Our Approach</h2>
+            </div>
+            <div class="slide-content">
+                <h3>Four Key Deliverables</h3>
+                <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); gap: 30px;">
+                    <div class="card">
+                        <h4>1. Information Requirements</h4>
+                        <p>Critical questions to understand business context, technical infrastructure, and privacy
+                            needs before implementation.</p>
+                    </div>
+                    <div class="card">
+                        <h4>2. Unified Architecture</h4>
+                        <p>Single combined view of web and app performance using GA4 as the central hub.</p>
+                    </div>
+                    <div class="card">
+                        <h4>3. Tool Strategy</h4>
+                        <p>Complementary use of Firebase and AppsFlyer for engagement and attribution.</p>
+                    </div>
+                    <div class="card">
+                        <h4>4. iOS Compliance</h4>
+                        <p>Three-pronged strategy for App Tracking Transparency compliance and privacy-preserving
+                            measurement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Information Requirements -->
+        <div class="slide" data-slide="4">
+            <div class="slide-header">
+                <div class="slide-number">03</div>
+                <h2>Information Requirements</h2>
+            </div>
+            <div class="slide-content">
+                <div class="two-column">
+                    <div>
+                        <h3>Business Context</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Primary KPIs and success metrics</li>
+                            <li>Marketing budget allocation</li>
+                            <li>Target user segments</li>
+                            <li>Conversion goals beyond installs</li>
+                        </ul>
+                        <h3 style="margin-top: 30px;">Technical Details</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Current event taxonomy</li>
+                            <li>App architecture specifics</li>
+                            <li>Backend API capabilities</li>
+                            <li>Data integration requirements</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Privacy & Compliance</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Current privacy policies</li>
+                            <li>Regional compliance needs (GDPR)</li>
+                            <li>Consent management approach</li>
+                            <li>Expected ATT opt-in rates</li>
+                        </ul>
+                        <h3 style="margin-top: 30px;">Team & Resources</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Analytics team capabilities</li>
+                            <li>Development resources</li>
+                            <li>Marketing team skill level</li>
+                            <li>Implementation timeline</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Unified Architecture -->
+        <div class="slide" data-slide="5">
+            <div class="slide-header">
+                <div class="slide-number">04</div>
+                <h2>Unified Architecture</h2>
+            </div>
+            <div class="slide-content">
+                <h3>GA4 as Single Source of Truth</h3>
+                <div class="diagram-container">
+                    <img src="unified_analytics_architecture.png" alt="Unified Analytics Architecture">
+                </div>
+                <div class="stats-grid" style="margin-top: 15px;">
+                    <div class="stat-card">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Truth: Analytics Hub</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$0</div>
+                        <div class="stat-label">Additional Tool Costs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Cross-Platform Visibility</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Future-Proof Solution</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Hybrid App Challenge -->
+        <div class="slide" data-slide="6">
+            <div class="slide-header">
+                <div class="slide-number">05</div>
+                <h2>Hybrid App Challenge</h2>
+            </div>
+            <div class="slide-content">
+                <div class="highlight-box" style="background: #fed7d7; color: #742a2a; margin-bottom: 30px;">
+                    <h3 style="color: #742a2a;">⚠️ The WebView Problem</h3>
+                    <p style="font-size: 18px; color: #742a2a;">Checkout & confirmation pages are WebViews. Risk of
+                        double-counting events and attribution complexity.</p>
+                </div>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>The Solution</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Implement GTM in WebView pages</li>
+                            <li><strong>Inject Native Bridge</strong> (JavaScript Interface)</li>
+                            <li>Tag events with platform parameter</li>
+                            <li>Disable Firebase auto-tracking for WebViews</li>
+                        </ul>
+                    </div>
+                    <div class="column" style="background: #f0fff4; border-left-color: #10B981;">
+                        <h3>The Result</h3>
+                        <ul style="font-size: 18px;">
+                            <li>Accurate event tracking</li>
+                            <li>No double-counting</li>
+                            <li>Proper attribution</li>
+                            <li>Unified user journey visibility</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="quote" style="margin-top: 30px;">
+                    "The hybrid architecture requires special attention, but with proper implementation, we achieve
+                    seamless tracking across native and web views."
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Firebase vs AppsFlyer -->
+        <div class="slide" data-slide="7">
+            <div class="slide-header">
+                <div class="slide-number">06</div>
+                <h2>Firebase vs AppsFlyer Strategy</h2>
+            </div>
+            <div class="slide-content">
+                <div class="highlight-box" style="margin-bottom: 30px;">
+                    <h3>Complementary Tools, Not Redundant</h3>
+                    <p style="font-size: 22px;">Use AppsFlyer for acquisition & attribution, Firebase for engagement &
+                        retention</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Use Case</th>
+                            <th>Tool</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Install Attribution</td>
+                            <td><strong>AppsFlyer</strong></td>
+                            <td><strong>Truth: Media Performance</strong> (MMP)</td>
+                        </tr>
+                        <tr>
+                            <td>Fraud Prevention</td>
+                            <td><strong>AppsFlyer</strong></td>
+                            <td>Advanced fraud detection (Protect Ad Spend)</td>
+                        </tr>
+                        <tr>
+                            <td>ROAS Reporting</td>
+                            <td><strong>AppsFlyer</strong></td>
+                            <td>Purpose-built for ROI</td>
+                        </tr>
+                        <tr>
+                            <td>User Behavior</td>
+                            <td><strong>Firebase</strong></td>
+                            <td><strong>Truth: App Experience</strong> (Product)</td>
+                        </tr>
+                        <tr>
+                            <td>Funnel Analysis</td>
+                            <td><strong>Firebase</strong></td>
+                            <td>Better conversion funnels</td>
+                        </tr>
+                        <tr>
+                            <td>Audience Building</td>
+                            <td><strong>Both</strong></td>
+                            <td>AppsFlyer for Paid Retargeting ↔ Firebase for Predictive Audiences</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 8: Campaign Data Flow -->
+        <div class="slide" data-slide="8">
+            <div class="slide-header">
+                <div class="slide-number">07</div>
+                <h2>Campaign Measurement Flow</h2>
+            </div>
+            <div class="slide-content">
+                <div class="diagram-container">
+                    <img src="campaign_data_flow.png" alt="Campaign Data Flow">
+                </div>
+                <div class="timeline" style="margin-top: 20px;">
+                    <div class="timeline-item">
+                        <div class="timeline-title">1. Attribution</div>
+                        <div class="timeline-content">AppsFlyer tracks install source from Google Ads or Meta Ads</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">2. Behavior Tracking</div>
+                        <div class="timeline-content">Firebase captures detailed user journey and engagement</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">3. Conversion</div>
+                        <div class="timeline-content">Both tools track booking events with revenue data</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">4. Optimization</div>
+                        <div class="timeline-content">AppsFlyer sends conversions back to ad platforms for Smart Bidding
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">5. Remarketing</div>
+                        <div class="timeline-content">Firebase creates predictive audiences exported to Google Ads</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: iOS ATT Challenge -->
+        <div class="slide" data-slide="9">
+            <div class="slide-header">
+                <div class="slide-number">08</div>
+                <h2>iOS ATT Challenge</h2>
+            </div>
+            <div class="slide-content">
+                <h3>The Reality Since iOS 14.5 (April 2021)</h3>
+                <div class="stats-grid">
+                    <div class="stat-card" style="border-color: #f6ad55;">
+                        <div class="stat-number" style="color: #f6ad55;">25-35%</div>
+                        <div class="stat-label">Travel Opt-In (Adjust Q2 '25)</div>
+                    </div>
+                    <div class="stat-card" style="border-color: #fc8181;">
+                        <div class="stat-number" style="color: #fc8181;">65-75%</div>
+                        <div class="stat-label">Users Decline Tracking</div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="background: #fed7d7; color: #742a2a; margin: 30px 0;">
+                    <h3 style="color: #742a2a;">Impact</h3>
+                    <ul style="color: #742a2a; font-size: 18px;">
+                        <li>Global Average Opt-In is <strong>~35%</strong> (Travel lags behind Gaming's 40%+)</li>
+                        <li>Loss of user-level visibility for major ad networks</li>
+                        <li>Delayed and aggregated reporting via SKAdNetwork</li>
+                        <li>Strict opt-in required for IDFA access</li>
+                    </ul>
+                </div>
+                <div class="quote">
+                    "We can't fight privacy regulations. Instead, we build a privacy-first strategy that still delivers
+                    actionable insights."
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: iOS Solution -->
+        <div class="slide" data-slide="10">
+            <div class="slide-header">
+                <div class="slide-number">09</div>
+                <h2>iOS Solution: Three Prongs</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card" style="border-top-color: #10B981;">
+                        <h4 style="color: #10B981;">1. Optimize ATT Opt-In</h4>
+                        <p><strong>Target: 45%+</strong> (Beat Industry Avg)</p>
+                        <ul style="font-size: 14px; margin-top: 15px;">
+                            <li style="font-size: 14px;">Show after value experience</li>
+                            <li style="font-size: 14px;">Pre-prompt "Soft Ask"</li>
+                            <li style="font-size: 14px;">Value-driven messaging</li>
+                            <li style="font-size: 14px;">Timing: After "Happy Moment"</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-top-color: #3B82F6;">
+                        <h4 style="color: #3B82F6;">2. Privacy-Preserving</h4>
+                        <p><strong>For Non-Consented Users</strong></p>
+                        <ul style="font-size: 14px; margin-top: 15px;">
+                            <li style="font-size: 14px;">SKAdNetwork attribution</li>
+                            <li style="font-size: 14px;">Probabilistic modeling</li>
+                            <li style="font-size: 14px;">Aggregate reporting</li>
+                            <li style="font-size: 14px;">Conversion value schema</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-top-color: #4338CA;">
+                        <h4 style="color: #4338CA;">3. First-Party Data</h4>
+                        <p><strong>Long-Term Strategy</strong></p>
+                        <ul style="font-size: 14px; margin-top: 15px;">
+                            <li style="font-size: 14px;">Incentivize registration</li>
+                            <li style="font-size: 14px;">User ID tracking</li>
+                            <li style="font-size: 14px;">Email/SMS channels</li>
+                            <li style="font-size: 14px;">CRM integration</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="diagram-container" style="margin-top: 30px;">
+                    <img src="ios_att_flow.png" alt="iOS ATT Flow" style="max-height: 350px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Implementation Roadmap -->
+        <div class="slide" data-slide="11">
+            <div class="slide-header">
+                <div class="slide-number">10</div>
+                <h2>Implementation Roadmap</h2>
+            </div>
+            <div class="slide-content">
+                <h3>12-Week Phased Approach</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-title">Phase 1: Foundation (Weeks 1-2)</div>
+                        <div class="timeline-content">Audit, define event taxonomy, link Firebase to GA4, implement User
+                            ID tracking</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Phase 2: iOS Compliance (Weeks 3-4)</div>
+                        <div class="timeline-content">Implement ATT prompt, configure SKAdNetwork, set up conversion
+                            value schema</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Phase 3: Hybrid App Tracking (Weeks 5-6)</div>
+                        <div class="timeline-content">WebView tracking, JavaScript bridge, end-to-end testing</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Phase 4: Campaign Integration (Weeks 7-8)</div>
+                        <div class="timeline-content">Google Ads conversion import, Meta Conversion API, deep linking
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Phase 5: Reporting (Weeks 9-10)</div>
+                        <div class="timeline-content">Custom dashboards, cohort reports, audience creation, team
+                            training</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Phase 6: Testing & Validation (Weeks 11-12)</div>
+                        <div class="timeline-content">End-to-end validation, test campaigns, iterate based on findings
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Expected Outcomes -->
+        <div class="slide" data-slide="12">
+            <div class="slide-header">
+                <div class="slide-number">11</div>
+                <h2>Expected Outcomes</h2>
+            </div>
+            <div class="slide-content">
+                <h3>Measurement Quality</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">95%+</div>
+                        <div class="stat-label">Event Tracking Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">&lt;5%</div>
+                        <div class="stat-label">Tool Discrepancy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">User Journey Visibility</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">35%+</div>
+                        <div class="stat-label">Target ATT Opt-In</div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 40px;">Business Impact</h3>
+                <div class="stats-grid">
+                    <div class="stat-card"
+                        style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; border: none;">
+                        <div class="stat-number" style="color: white;">+15-25%</div>
+                        <div class="stat-label" style="color: white;">ROAS Improvement</div>
+                    </div>
+                    <div class="stat-card"
+                        style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); color: white; border: none;">
+                        <div class="stat-number" style="color: white;">-10-15%</div>
+                        <div class="stat-label" style="color: white;">CPI Reduction</div>
+                    </div>
+                    <div class="stat-card"
+                        style="background: linear-gradient(135deg, #4338CA 0%, #3730A3 100%); color: white; border: none;">
+                        <div class="stat-number" style="color: white;">+30%</div>
+                        <div class="stat-label" style="color: white;">Deep Link Conversions</div>
+                    </div>
+                    <div class="stat-card"
+                        style="background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%); color: white; border: none;">
+                        <div class="stat-number" style="color: white;">-50%</div>
+                        <div class="stat-label" style="color: white;">Manual Reporting Work</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Hiring Simulation -->
+        <div class="slide" data-slide="13">
+            <div class="slide-header">
+                <div class="slide-number">12</div>
+                <h2>Hiring Simulation: Team & Budget Assessment</h2>
+            </div>
+            <div class="slide-content">
+                <div class="highlight-box" style="background: #fff3cd; color: #856404; margin-bottom: 25px;">
+                    <h3 style="color: #856404;">⚠️ Context: Identifying Current State & Gaps</h3>
+                    <p style="font-size: 18px; color: #856404;">This slide helps us understand <strong>where Sunny
+                            Holidays is today</strong> and what resources/budget we need to <strong>hire or
+                            allocate</strong> for successful implementation.</p>
+                </div>
+                <div class="two-column">
+                    <div>
+                        <h3>Tool Budget Needs</h3>
+                        <table style="font-size: 16px;">
+                            <thead>
+                                <tr>
+                                    <th>Tool</th>
+                                    <th>Monthly Cost</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Google Analytics 4</td>
+                                    <td><strong>$0</strong></td>
+                                    <td><span class="tag green">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Firebase</td>
+                                    <td>$0-25</td>
+                                    <td><span class="tag green">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>AppsFlyer</td>
+                                    <td>$1,500-3,000</td>
+                                    <td><span class="tag orange">Need Contract</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Google Tag Manager</td>
+                                    <td><strong>$0</strong></td>
+                                    <td><span class="tag green">Active</span></td>
+                                </tr>
+                                <tr style="background: #4338CA; color: white;">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>$1,500-3,500</strong></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>Talent Gap Analysis</h3>
+                        <div class="card" style="margin-bottom: 15px; background: #fff3cd; border-top-color: #f6ad55;">
+                            <h4 style="color: #856404;">🔍 Need to Hire/Contract</h4>
+                            <ul style="font-size: 14px;">
+                                <li style="font-size: 14px;">Analytics Engineer: 0.5 FTE (6 months)</li>
+                                <li style="font-size: 14px;">iOS Developer: 0.3 FTE (Bridge implementation)</li>
+                                <li style="font-size: 14px;">Android Developer: 0.3 FTE (Bridge implementation)</li>
+                                <li style="font-size: 14px;">Web Developer: 0.2 FTE (GTM setup)</li>
+                            </ul>
+                        </div>
+                        <div class="card" style="background: #f0fff4; border-top-color: #10B981;">
+                            <h4 style="color: #10B981;">✅ Ongoing (Post-Launch)</h4>
+                            <ul style="font-size: 14px;">
+                                <li style="font-size: 14px;">Analytics Engineer: 0.25 FTE</li>
+                                <li style="font-size: 14px;">Marketing Analyst: 0.5 FTE</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <h3>Investment Justification</h3>
+                    <p style="font-size: 18px;">With 15-25% ROAS improvement and 10-15% CPI reduction, the investment
+                        pays for itself in Q1. <strong>Key Question:</strong> Does Sunny Holidays have these resources
+                        in-house, or do we need to hire/contract?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Key Recommendations -->
+        <div class="slide" data-slide="14">
+            <div class="slide-header">
+                <div class="slide-number">13</div>
+                <h2>Key Recommendations</h2>
+            </div>
+            <div class="slide-content">
+                <div class="highlight-box" style="margin-bottom: 30px;">
+                    <h3>Core Strategy</h3>
+                    <p style="font-size: 20px; line-height: 1.8;">
+                        "We're not just implementing tools - we're building a strategic measurement framework that
+                        enables data-driven decision making in a privacy-first world."
+                    </p>
+                </div>
+                <div class="grid-3">
+                    <div class="card">
+                        <h4>1. GA4 Central Hub</h4>
+                        <p>Use GA4 as the single source of truth for unified web and app reporting</p>
+                    </div>
+                    <div class="card">
+                        <h4>2. Complementary Tools</h4>
+                        <p>AppsFlyer for attribution, Firebase for engagement - not redundant</p>
+                    </div>
+                    <div class="card">
+                        <h4>3. Privacy-First iOS</h4>
+                        <p>Three-pronged strategy: optimize opt-in + privacy-preserving + first-party data</p>
+                    </div>
+                    <div class="card">
+                        <h4>4. First-Party Investment</h4>
+                        <p>Build long-term resilience against privacy regulation changes</p>
+                    </div>
+                    <div class="card">
+                        <h4>5. Phased Implementation</h4>
+                        <p>12-week rollout with quick wins in first 4 weeks</p>
+                    </div>
+                    <div class="card">
+                        <h4>6. Incrementality Testing</h4>
+                        <p>Don't rely solely on attribution - measure true incremental impact</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Next Steps -->
+        <div class="slide" data-slide="15">
+            <div class="slide-header">
+                <div class="slide-number">14</div>
+                <h2>Next Steps</h2>
+            </div>
+            <div class="slide-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-title">1. Discovery Workshop</div>
+                        <div class="timeline-content">Schedule session with marketing, analytics, and development teams
+                            to gather requirements and align on KPIs</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">2. Technical Audit</div>
+                        <div class="timeline-content">Assess current tracking quality, identify gaps and opportunities,
+                            document baseline metrics</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">3. Pilot Program</div>
+                        <div class="timeline-content">Start with iOS + one campaign to validate approach and gather
+                            learnings</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">4. Scale & Optimize</div>
+                        <div class="timeline-content">Roll out to all platforms and campaigns, continuous optimization
+                            based on data</div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 40px;">
+                    <h3>Timeline to Value</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card" style="background: white;">
+                            <div class="stat-number" style="color: #4338CA;">Week 4</div>
+                            <div class="stat-label">Unified Reporting Live</div>
+                        </div>
+                        <div class="stat-card" style="background: white;">
+                            <div class="stat-number" style="color: #4338CA;">Week 8</div>
+                            <div class="stat-label">iOS Compliance Complete</div>
+                        </div>
+                        <div class="stat-card" style="background: white;">
+                            <div class="stat-number" style="color: #4338CA;">Week 12</div>
+                            <div class="stat-label">Full Optimization Capability</div>
+                        </div>
+                        <div class="stat-card" style="background: white;">
+                            <div class="stat-number" style="color: #4338CA;">Month 3-6</div>
+                            <div class="stat-label">Measurable ROAS Improvement</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Thank You -->
+        <div class="slide" data-slide="16">
+            <div
+                style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center;">
+                <h1 style="font-size: 64px; margin-bottom: 30px; color: #4338CA;">Thank You</h1>
+                <div class="subtitle" style="font-size: 28px; margin-bottom: 60px;">Questions & Discussion</div>
+                <div class="highlight-box" style="max-width: 800px;">
+                    <h3>Key Takeaway</h3>
+                    <p style="font-size: 22px; line-height: 1.6;">
+                        "The goal is not perfect attribution, but <strong>consistent, privacy-compliant
+                            decision-making</strong>. By combining GA4, Firebase, and AppsFlyer, we gain clarity where
+                        it
+                        matters most: campaign optimization and user growth."
+                    </p>
+                </div>
+                <div style="margin-top: 60px; display: flex; gap: 15px;">
+                    <span class="tag blue">Strategic Thinking</span>
+                    <span class="tag green">Technical Expertise</span>
+                    <span class="tag orange">Privacy-First</span>
+                    <span class="tag" style="background: #4338CA;">Measurable Results</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">16</span>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button" id="prev-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-button" id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 16;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+
+            if (n > totalSlides) {
+                currentSlide = totalSlides;
+            }
+            if (n < 1) {
+                currentSlide = 1;
+            }
+
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            slides[currentSlide - 1].classList.add('active');
+
+            document.getElementById('current-slide').textContent = currentSlide;
+
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSlide === 1;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        document.getElementById('total-slides').textContent = totalSlides;
+        showSlide(currentSlide);
+        // Lightbox functionality
+        document.querySelectorAll('.diagram-container img').forEach(img => {
+            img.onclick = function () {
+                document.getElementById('lightbox-img').src = this.src;
+                document.getElementById('lightbox').style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+
+</html>
